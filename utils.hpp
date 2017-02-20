@@ -1,7 +1,11 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include <fstream>
+#include <vector>
 #include <vulkan/vulkan.h>
+
+using namespace std;
 
 struct QueueFamilyIndices {
     int graphicsFamily = -1;
@@ -44,5 +48,25 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
     return VK_FALSE;
 }
 
-#endif // UTILS_HPP
+vector<char> readBinFile(const string& filename){
+    ifstream file(filename, ios::ate | ios::binary);
 
+    if (!file.is_open()) {
+        throw runtime_error("Failed to open shader file!");
+    }
+
+    // Find size of file
+    size_t fileSize = (size_t) file.tellg();
+    vector<char> buffer(fileSize);
+
+    // Reset read position to start of file
+    file.seekg(0);
+    // Read file
+    file.read(buffer.data(), fileSize);
+    // Close file
+    file.close();
+
+    return buffer;
+}
+
+#endif // UTILS_HPP
