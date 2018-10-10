@@ -650,8 +650,8 @@ private:
         }
 
         // Check if the best candidate is suitable
-        if(candidates.begin()->first > 0){
-            physicalDevice = candidates.begin()->second;
+        if(candidates.rbegin()->first > 0){
+            physicalDevice = candidates.rbegin()->second;
         }
         else{
             throw std::runtime_error("Failed to find a suitable GPU!");
